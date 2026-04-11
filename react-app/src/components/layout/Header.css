@@ -1,0 +1,248 @@
+/*
+  Header Component - Apple-Inspired Glass Navigation
+  M/S Harinarayan Khandelwal
+*/
+
+/* ============================================
+   MAIN HEADER - Glass Effect
+   ============================================ */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--nav-height);
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  transition: background var(--transition-normal);
+}
+
+.header--scrolled {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+.header__container {
+  max-width: var(--container-wide);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ============================================
+   LOGO
+   ============================================ */
+.logo {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  line-height: 1;
+  gap: 2px;
+}
+
+.logo__main {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  color: var(--text-light);
+  transition: color var(--transition-normal);
+}
+
+.header--scrolled .logo__main {
+  color: var(--text-primary);
+}
+
+.logo__sub {
+  font-family: var(--font-body);
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   DESKTOP NAVIGATION
+   ============================================ */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav__link {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  text-decoration: none;
+  padding: 8px 12px;
+  color: var(--text-light);
+  transition: color var(--transition-fast);
+  position: relative;
+}
+
+.header--scrolled .nav__link {
+  color: var(--text-secondary);
+}
+
+.nav__link:hover {
+  color: var(--text-light);
+}
+
+.header--scrolled .nav__link:hover {
+  color: var(--text-primary);
+}
+
+.nav__link--active {
+  color: var(--text-light);
+}
+
+.header--scrolled .nav__link--active {
+  color: var(--text-primary);
+}
+
+.nav__link--active::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* ============================================
+   CTA BUTTON
+   ============================================ */
+.header__cta {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-primary);
+  background: var(--accent);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.header__cta:hover {
+  background: var(--accent-hover);
+}
+
+/* ============================================
+   MOBILE TOGGLE
+   ============================================ */
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-toggle__bar {
+  width: 18px;
+  height: 1.5px;
+  background: var(--text-light);
+  transition: all var(--transition-normal);
+}
+
+.header--scrolled .mobile-toggle__bar {
+  background: var(--text-primary);
+}
+
+.mobile-toggle--active .mobile-toggle__bar:first-child {
+  transform: rotate(45deg) translate(2px, 2px);
+}
+
+.mobile-toggle--active .mobile-toggle__bar:last-child {
+  transform: rotate(-45deg) translate(2px, -2px);
+}
+
+/* ============================================
+   MOBILE MENU
+   ============================================ */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  top: var(--nav-height);
+  background: var(--surface-dark);
+  z-index: 999;
+  padding: var(--space-xl);
+  opacity: 0;
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.mobile-menu__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.mobile-menu__link {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: var(--text-light);
+  text-decoration: none;
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-tight);
+  transition: color var(--transition-fast);
+}
+
+.mobile-menu__link:hover {
+  color: var(--accent);
+}
+
+.mobile-menu__link--active {
+  color: var(--accent);
+}
+
+.mobile-menu__cta {
+  margin-top: var(--space-xl);
+  background: var(--accent);
+  color: var(--text-primary);
+  text-align: center;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: none;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .nav,
+  .header__cta {
+    display: none;
+  }
+
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .header__container {
+    padding: 0 var(--space-md);
+  }
+
+  .logo__main {
+    font-size: 12px;
+  }
+
+  .logo__sub {
+    font-size: 8px;
+  }
+}
