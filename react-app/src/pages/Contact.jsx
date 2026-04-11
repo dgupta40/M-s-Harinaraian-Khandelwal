@@ -7,18 +7,52 @@ const Contact = () => {
     email: '',
     phone: '',
     projectType: '',
+    state: '',
+    city: '',
+    plotSize: '',
+    budget: '',
+    timeline: '',
+    hasPlans: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
   const projectTypes = [
+    'Residential - New Construction',
+    'Residential - Renovation/Extension',
     'Commercial Building',
-    'Residential Project',
-    'Industrial Facility',
-    'Institutional Building',
-    'Renovation/Expansion',
+    'Factory/Warehouse',
+    'Farmhouse/Villa',
+    'Showroom/Retail Space',
+    'Office Building',
     'Other'
+  ];
+
+  const states = [
+    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
+    'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka',
+    'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram',
+    'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu',
+    'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
+    'Delhi', 'Chandigarh', 'Other'
+  ];
+
+  const budgetRanges = [
+    'Below ₹25 Lakhs',
+    '₹25 Lakhs - ₹50 Lakhs',
+    '₹50 Lakhs - ₹1 Crore',
+    '₹1 Crore - ₹5 Crore',
+    '₹5 Crore - ₹10 Crore',
+    'Above ₹10 Crore'
+  ];
+
+  const timelines = [
+    'Ready to start immediately',
+    'Within 1-3 months',
+    'Within 3-6 months',
+    'Within 6-12 months',
+    'Just exploring options'
   ];
 
   const handleChange = (e) => {
@@ -32,7 +66,10 @@ const Contact = () => {
     await new Promise(resolve => setTimeout(resolve, 1500));
     setSubmitStatus('success');
     setIsSubmitting(false);
-    setFormData({ name: '', email: '', phone: '', projectType: '', message: '' });
+    setFormData({
+      name: '', email: '', phone: '', projectType: '', state: '', city: '',
+      plotSize: '', budget: '', timeline: '', hasPlans: '', message: ''
+    });
     setTimeout(() => setSubmitStatus(null), 5000);
   };
 
@@ -46,9 +83,9 @@ const Contact = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <span className="section-label">Get In Touch</span>
-          <h1>Contact Us</h1>
-          <p>Let's discuss your next infrastructure project</p>
+          <span className="section-label">Start Your Project</span>
+          <h1>Get a Free Quote</h1>
+          <p>Tell us about your project and we'll get back to you within 24 hours</p>
         </motion.div>
       </section>
 
@@ -62,19 +99,19 @@ const Contact = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <h3>Get in Touch</h3>
+            <h3>Why Choose Us?</h3>
             <p className="contact-info__intro">
-              Have a project in mind? We'd love to hear from you.
+              29+ years of experience building across India. From homes to commercial complexes, we deliver quality construction on time.
             </p>
 
             <div className="info-list">
               <div className="info-item">
-                <h4>Office</h4>
+                <h4>Head Office</h4>
                 <p>A-1 Koolwal Bhawan, Janta Colony</p>
                 <p>Jaipur - 302004, Rajasthan</p>
               </div>
               <div className="info-item">
-                <h4>Phone</h4>
+                <h4>Call Us</h4>
                 <p>+91 9829015856</p>
                 <p>+91 9001890434</p>
               </div>
@@ -83,9 +120,20 @@ const Contact = () => {
                 <p>harinaraiankhandelwal@gmail.com</p>
               </div>
               <div className="info-item">
-                <h4>Hours</h4>
+                <h4>Working Hours</h4>
                 <p>Monday - Saturday</p>
                 <p>9:00 AM - 6:00 PM</p>
+              </div>
+            </div>
+
+            <div className="trust-badges">
+              <div className="trust-badge">
+                <span className="trust-badge__number">50+</span>
+                <span className="trust-badge__label">Projects Completed</span>
+              </div>
+              <div className="trust-badge">
+                <span className="trust-badge__number">₹700Cr+</span>
+                <span className="trust-badge__label">Project Value</span>
               </div>
             </div>
           </motion.div>
@@ -98,22 +146,38 @@ const Contact = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="name">Full Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  autoComplete="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  placeholder="Your full name"
-                />
+            <div className="form-section">
+              <h4 className="form-section__title">Your Details</h4>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="name">Full Name *</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    autoComplete="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    placeholder="Your full name"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="phone">Phone Number *</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    autoComplete="tel"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    placeholder="+91 XXXXX XXXXX"
+                  />
+                </div>
               </div>
               <div className="form-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Email Address *</label>
                 <input
                   type="email"
                   id="email"
@@ -127,56 +191,142 @@ const Contact = () => {
               </div>
             </div>
 
-            <div className="form-row">
+            <div className="form-section">
+              <h4 className="form-section__title">Project Information</h4>
               <div className="form-group">
-                <label htmlFor="phone">Phone</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  autoComplete="tel"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  placeholder="+91 XXXXX XXXXX"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="projectType">Project Type</label>
+                <label htmlFor="projectType">Project Type *</label>
                 <select
                   id="projectType"
                   name="projectType"
                   value={formData.projectType}
                   onChange={handleChange}
+                  required
                 >
-                  <option value="">Select type</option>
+                  <option value="">Select project type</option>
                   {projectTypes.map(type => (
                     <option key={type} value={type}>{type}</option>
                   ))}
                 </select>
               </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="state">State *</label>
+                  <select
+                    id="state"
+                    name="state"
+                    value={formData.state}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select state</option>
+                    {states.map(state => (
+                      <option key={state} value={state}>{state}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="city">City *</label>
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter city name"
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="plotSize">Plot/Built-up Area</label>
+                  <input
+                    type="text"
+                    id="plotSize"
+                    name="plotSize"
+                    value={formData.plotSize}
+                    onChange={handleChange}
+                    placeholder="e.g., 2000 sq ft"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="budget">Estimated Budget *</label>
+                  <select
+                    id="budget"
+                    name="budget"
+                    value={formData.budget}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select budget range</option>
+                    {budgetRanges.map(range => (
+                      <option key={range} value={range}>{range}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="timeline">When do you want to start? *</label>
+                  <select
+                    id="timeline"
+                    name="timeline"
+                    value={formData.timeline}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select timeline</option>
+                    {timelines.map(t => (
+                      <option key={t} value={t}>{t}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="hasPlans">Do you have approved plans?</label>
+                  <select
+                    id="hasPlans"
+                    name="hasPlans"
+                    value={formData.hasPlans}
+                    onChange={handleChange}
+                  >
+                    <option value="">Select</option>
+                    <option value="yes">Yes, plans are ready</option>
+                    <option value="in-progress">In progress</option>
+                    <option value="no">No, need help with planning</option>
+                  </select>
+                </div>
+              </div>
             </div>
 
-            <div className="form-group form-group--full">
-              <label htmlFor="message">Project Details</label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows="5"
-                placeholder="Tell us about your project..."
-              />
+            <div className="form-section">
+              <h4 className="form-section__title">Additional Details</h4>
+              <div className="form-group">
+                <label htmlFor="message">Tell us more about your project</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows="4"
+                  placeholder="Any specific requirements, preferences, or questions..."
+                />
+              </div>
             </div>
 
             <button type="submit" className="submit-btn" disabled={isSubmitting}>
-              {isSubmitting ? 'Sending...' : 'Send Message'}
+              {isSubmitting ? 'Sending...' : 'Get Free Quote'}
             </button>
+
+            <p className="form-note">
+              We respect your privacy. Your information will only be used to contact you about your project.
+            </p>
 
             {submitStatus === 'success' && (
               <div className="success-msg">
-                Thank you! We'll get back to you soon.
+                Thank you! We've received your inquiry and will contact you within 24 hours.
               </div>
             )}
           </motion.form>
@@ -249,6 +399,7 @@ const Contact = () => {
           display: grid;
           grid-template-columns: 1fr 1.5fr;
           gap: 64px;
+          align-items: start;
         }
 
         /* Info */
@@ -261,12 +412,14 @@ const Contact = () => {
         .contact-info__intro {
           color: var(--text-secondary);
           margin-bottom: 32px;
+          line-height: var(--leading-relaxed);
         }
 
         .info-list {
           display: flex;
           flex-direction: column;
-          gap: 24px;
+          gap: 16px;
+          margin-bottom: 32px;
         }
 
         .info-item {
@@ -291,6 +444,34 @@ const Contact = () => {
           line-height: 1.6;
         }
 
+        .trust-badges {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+        }
+
+        .trust-badge {
+          background: var(--surface-dark);
+          padding: 20px;
+          border-radius: var(--radius-md);
+          text-align: center;
+        }
+
+        .trust-badge__number {
+          display: block;
+          font-family: var(--font-display);
+          font-size: 24px;
+          color: var(--accent);
+          margin-bottom: 4px;
+        }
+
+        .trust-badge__label {
+          font-size: var(--text-micro);
+          color: var(--text-light-secondary);
+          text-transform: uppercase;
+          letter-spacing: var(--tracking-wide);
+        }
+
         /* Form */
         .contact-form {
           background: var(--white);
@@ -298,21 +479,49 @@ const Contact = () => {
           border-radius: var(--radius-lg);
         }
 
+        .form-section {
+          margin-bottom: 32px;
+          padding-bottom: 32px;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .form-section:last-of-type {
+          border-bottom: none;
+          padding-bottom: 0;
+          margin-bottom: 24px;
+        }
+
+        .form-section__title {
+          font-family: var(--font-display);
+          font-size: var(--text-body);
+          color: var(--text-primary);
+          margin-bottom: 20px;
+        }
+
         .form-row {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 24px;
-          margin-bottom: 24px;
+          gap: 20px;
+          margin-bottom: 20px;
+        }
+
+        .form-row:last-child {
+          margin-bottom: 0;
         }
 
         .form-group {
           display: flex;
           flex-direction: column;
           gap: 8px;
+          margin-bottom: 20px;
         }
 
-        .form-group--full {
-          margin-bottom: 24px;
+        .form-row .form-group {
+          margin-bottom: 0;
+        }
+
+        .form-group:last-child {
+          margin-bottom: 0;
         }
 
         .form-group label {
@@ -344,7 +553,7 @@ const Contact = () => {
 
         .form-group textarea {
           resize: vertical;
-          min-height: 120px;
+          min-height: 100px;
         }
 
         .submit-btn {
@@ -368,6 +577,13 @@ const Contact = () => {
         .submit-btn:disabled {
           opacity: 0.7;
           cursor: not-allowed;
+        }
+
+        .form-note {
+          text-align: center;
+          font-size: var(--text-micro);
+          color: var(--text-tertiary);
+          margin-top: 16px;
         }
 
         .success-msg {
@@ -408,6 +624,10 @@ const Contact = () => {
 
           .contact-form {
             padding: 24px;
+          }
+
+          .trust-badges {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>
