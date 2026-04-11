@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
 
@@ -6,6 +6,8 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const mobileMenuRef = useRef(null);
+  const toggleRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,6 +20,51 @@ const Header = () => {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location]);
+
+  // Handle escape key and body scroll lock
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        setIsMobileMenuOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    document.body.style.overflow = 'hidden';
+
+    // Focus first link when menu opens
+    const firstLink = mobileMenuRef.current?.querySelector('a');
+    firstLink?.focus();
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
+  // Focus trap for mobile menu
+  const handleMenuKeyDown = useCallback((e) => {
+    if (e.key !== 'Tab') return;
+
+    const focusableElements = mobileMenuRef.current?.querySelectorAll(
+      'a[href], button:not([disabled])'
+    );
+    if (!focusableElements?.length) return;
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (e.shiftKey && document.activeElement === firstElement) {
+      e.preventDefault();
+      lastElement.focus();
+    } else if (!e.shiftKey && document.activeElement === lastElement) {
+      e.preventDefault();
+      firstElement.focus();
+    }
+  }, []);
 
   const navLinks = [
     { path: '/', label: 'Home' },
@@ -54,18 +101,29 @@ const Header = () => {
           </Link>
 
           <button
+            ref={toggleRef}
             className={`mobile-toggle ${isMobileMenuOpen ? 'mobile-toggle--active' : ''}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
           >
-            <span className="mobile-toggle__bar" />
-            <span className="mobile-toggle__bar" />
+            <span className="mobile-toggle__bar" aria-hidden="true" />
+            <span className="mobile-toggle__bar" aria-hidden="true" />
           </button>
         </div>
       </header>
 
       {isMobileMenuOpen && (
-        <div className="mobile-menu">
+        <div
+          id="mobile-menu"
+          className="mobile-menu"
+          ref={mobileMenuRef}
+          onKeyDown={handleMenuKeyDown}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation menu"
+        >
           <nav className="mobile-menu__nav">
             {navLinks.map((link) => (
               <Link

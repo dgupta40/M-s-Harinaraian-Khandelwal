@@ -8,24 +8,25 @@ const fadeUp = {
   visible: { opacity: 1, y: 0 }
 };
 
+// Moved outside component to avoid recreation on every render
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div style={{ background: '#1a1a1a', padding: '12px 16px', borderRadius: '8px' }}>
+        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px', margin: 0 }}>{label}</p>
+        <p style={{ color: '#d97706', fontSize: '18px', fontWeight: 600, margin: '4px 0 0' }}>
+          ₹{payload[0].value} Cr
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+
 const About = () => {
   const [storyRef, storyInView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [valuesRef, valuesInView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const [timelineRef, timelineInView] = useInView({ triggerOnce: true, threshold: 0.1 });
-
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div style={{ background: '#1a1a1a', padding: '12px 16px', borderRadius: '8px' }}>
-          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px', margin: 0 }}>{label}</p>
-          <p style={{ color: '#d97706', fontSize: '18px', fontWeight: 600, margin: '4px 0 0' }}>
-            ₹{payload[0].value} Cr
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
 
   const milestones = [
     { year: '1995', title: 'Founded', desc: 'Company established in Jaipur' },
@@ -100,7 +101,7 @@ const About = () => {
               <span className="stat__label">Years</span>
             </div>
             <div className="stat">
-              <span className="stat__value">₹105Cr</span>
+              <span className="stat__value">₹{companyStats.currentTurnover}</span>
               <span className="stat__label">Turnover</span>
             </div>
             <div className="stat">

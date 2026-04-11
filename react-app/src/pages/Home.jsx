@@ -148,6 +148,15 @@ const Hero = () => {
           border-color: var(--text-light);
         }
 
+        .btn:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 2px;
+        }
+
+        .btn--outline:focus-visible {
+          outline-color: var(--text-light);
+        }
+
         @media (max-width: 768px) {
           .hero__actions {
             flex-direction: column;
@@ -443,6 +452,11 @@ const FeaturedProjects = () => {
         .link-pill:hover {
           background: var(--accent);
           color: var(--surface-dark);
+        }
+
+        .link-pill:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 2px;
         }
 
         .projects__grid {
@@ -844,6 +858,11 @@ const ClientsSection = () => {
           transform: translateY(-2px);
         }
 
+        .clients__item:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 2px;
+        }
+
         .clients__abbr {
           font-family: var(--font-display);
           font-size: var(--text-h2);
@@ -924,6 +943,11 @@ const CTASection = () => {
 
         .cta__phone:hover {
           color: var(--accent);
+        }
+
+        .cta__phone:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 4px;
         }
       `}</style>
     </section>

@@ -493,10 +493,10 @@ export const projects = [
     description: "Construction work of Administrative Building of MBC Kherwara Dist. Udaipur. Project commenced 06.02.2026 with completion target 05.05.2027."
   },
   {
-    id: 50,
+    id: 49,
     title: "Hotel near Jaipur International Airport",
     client: "Private",
-    value: "Private",
+    value: null,
     duration: "Ongoing",
     category: "private",
     status: "ongoing",

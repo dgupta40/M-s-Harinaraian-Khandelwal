@@ -35,6 +35,13 @@ const Gallery = () => {
     ? galleryItems
     : galleryItems.filter(item => item.category === activeCategory);
 
+  // Close lightbox if selected index becomes out of bounds (e.g., category changed)
+  useEffect(() => {
+    if (selectedIndex !== null && selectedIndex >= filteredItems.length) {
+      setSelectedIndex(null);
+    }
+  }, [selectedIndex, filteredItems.length]);
+
   const handlePrev = useCallback(() => {
     setSelectedIndex(prev => prev === 0 ? filteredItems.length - 1 : prev - 1);
   }, [filteredItems.length]);
@@ -167,7 +174,11 @@ const Gallery = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <button className="lightbox__close" aria-label="Close lightbox">
+            <button
+              className="lightbox__close"
+              onClick={(e) => { e.stopPropagation(); setSelectedIndex(null); }}
+              aria-label="Close lightbox"
+            >
               <span aria-hidden="true">×</span>
             </button>
             <button
@@ -328,9 +339,9 @@ const Gallery = () => {
           transform: translateY(-4px);
         }
 
-        .gallery-item:focus {
-          outline: none;
-          box-shadow: 0 0 0 3px var(--accent);
+        .gallery-item:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 2px;
         }
 
         .item-image {

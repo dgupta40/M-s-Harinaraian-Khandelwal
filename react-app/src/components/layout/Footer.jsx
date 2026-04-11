@@ -49,11 +49,13 @@ const Footer = () => {
 
           <div className="footer__col">
             <h4>Contact</h4>
-            <p>A-1 Koolwal Bhawan</p>
-            <p>Janta Colony, Jaipur 302004</p>
-            <p className="footer__spacer" />
-            <p>+91 9829015856</p>
-            <p>harinaraiankhandelwal@gmail.com</p>
+            <address className="footer__address">
+              <p>A-1 Koolwal Bhawan</p>
+              <p>Janta Colony, Jaipur 302004</p>
+              <p className="footer__spacer" />
+              <p><a href="tel:+919829015856">+91 9829015856</a></p>
+              <p><a href="mailto:harinaraiankhandelwal@gmail.com">harinaraiankhandelwal@gmail.com</a></p>
+            </address>
           </div>
         </div>
       </div>
@@ -123,6 +125,15 @@ const Footer = () => {
 
         .footer__col a:hover {
           color: var(--text-light);
+        }
+
+        .footer__col a:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 2px;
+        }
+
+        .footer__address {
+          font-style: normal;
         }
 
         .footer__spacer {

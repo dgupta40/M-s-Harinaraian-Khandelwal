@@ -57,7 +57,7 @@ function Contact() {
             <h3>Contact Information</h3>
             {contactInfo.map((item, index) => (
               <div className="contact-item" key={index}>
-                <span>{item.icon}</span>
+                <span aria-hidden="true">{item.icon}</span>
                 <div>
                   <strong>{item.label}:</strong><br />
                   {Array.isArray(item.content)

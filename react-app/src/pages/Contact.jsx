@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 const Contact = () => {
@@ -17,6 +17,16 @@ const Contact = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const timeoutRef = useRef(null);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const projectTypes = [
     'Residential - New Construction',
@@ -70,7 +80,11 @@ const Contact = () => {
       name: '', email: '', phone: '', projectType: '', state: '', city: '',
       plotSize: '', budget: '', timeline: '', hasPlans: '', message: ''
     });
-    setTimeout(() => setSubmitStatus(null), 5000);
+    // Clear previous timeout if exists
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => setSubmitStatus(null), 5000);
   };
 
   return (
@@ -547,8 +561,16 @@ const Contact = () => {
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
-          outline: none;
           border-color: var(--accent);
+          outline: 2px solid transparent;
+        }
+
+        .form-group input:focus-visible,
+        .form-group select:focus-visible,
+        .form-group textarea:focus-visible {
+          border-color: var(--accent);
+          outline: 2px solid var(--accent);
+          outline-offset: 2px;
         }
 
         .form-group textarea {
@@ -577,6 +599,11 @@ const Contact = () => {
         .submit-btn:disabled {
           opacity: 0.7;
           cursor: not-allowed;
+        }
+
+        .submit-btn:focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 2px;
         }
 
         .form-note {
