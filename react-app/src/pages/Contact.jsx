@@ -371,7 +371,8 @@ const Contact = () => {
 
             {submitStatus === 'success' && (
               <div className="success-msg">
-                Thank you! We've received your inquiry and will contact you within 24 hours.
+                <strong>Query Submitted Successfully!</strong>
+                <p>Thank you for your interest. Our team will review your requirements and get back to you within 24-48 hours.</p>
               </div>
             )}
 
@@ -652,12 +653,23 @@ const Contact = () => {
 
         .success-msg {
           margin-top: 24px;
-          padding: 16px;
+          padding: 20px;
           background: rgba(34, 197, 94, 0.1);
           color: #16a34a;
           text-align: center;
           border-radius: var(--radius-md);
           font-size: var(--text-small);
+        }
+
+        .success-msg strong {
+          display: block;
+          font-size: var(--text-body);
+          margin-bottom: 8px;
+        }
+
+        .success-msg p {
+          margin: 0;
+          color: var(--text-secondary);
         }
 
         .error-msg {
