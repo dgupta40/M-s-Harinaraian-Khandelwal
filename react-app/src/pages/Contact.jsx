@@ -73,14 +73,45 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setSubmitStatus('success');
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch('https://formspree.io/f/xbdqrvzb', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          projectType: formData.projectType,
+          location: `${formData.city}, ${formData.state}`,
+          plotSize: formData.plotSize || 'Not specified',
+          budget: formData.budget,
+          timeline: formData.timeline,
+          hasPlans: formData.hasPlans || 'Not specified',
+          message: formData.message || 'None'
+        })
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({
+          name: '', email: '', phone: '', projectType: '', state: '', city: '',
+          plotSize: '', budget: '', timeline: '', hasPlans: '', message: ''
+        });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    }
+
     setIsSubmitting(false);
-    setFormData({
-      name: '', email: '', phone: '', projectType: '', state: '', city: '',
-      plotSize: '', budget: '', timeline: '', hasPlans: '', message: ''
-    });
-    // Clear previous timeout if exists
+
+    // Clear status after 5 seconds
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -341,6 +372,12 @@ const Contact = () => {
             {submitStatus === 'success' && (
               <div className="success-msg">
                 Thank you! We've received your inquiry and will contact you within 24 hours.
+              </div>
+            )}
+
+            {submitStatus === 'error' && (
+              <div className="error-msg">
+                Something went wrong. Please try again or call us at +91 9829015856.
               </div>
             )}
           </motion.form>
@@ -618,6 +655,16 @@ const Contact = () => {
           padding: 16px;
           background: rgba(34, 197, 94, 0.1);
           color: #16a34a;
+          text-align: center;
+          border-radius: var(--radius-md);
+          font-size: var(--text-small);
+        }
+
+        .error-msg {
+          margin-top: 24px;
+          padding: 16px;
+          background: rgba(239, 68, 68, 0.1);
+          color: #dc2626;
           text-align: center;
           border-radius: var(--radius-md);
           font-size: var(--text-small);
