@@ -416,3 +416,12 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Claude Code local files
+skills-lock.json
+.agents/
+.claude/
+.playwright-mcp/
+
+# Development screenshots
+*.png
